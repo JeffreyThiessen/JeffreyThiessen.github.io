@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# Filtering Muscular Interference from EEG Brain Data on Consumer Grade Device using Neural Networks
+# Filtering Muscular Interference from EEG Brain Data on Consumer Grade Devices using Neural Networks
 
 A Computer Honours Project under supervision of Dr. Neil Bruce for the University of Manitoba.
 
