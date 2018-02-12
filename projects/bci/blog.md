@@ -10,6 +10,17 @@ A Computer Honours Project under supervision of Dr. Neil Bruce for the Universit
 
 ## Blog Updates
 
+#### February 12, 2018
+Just a small update this week. I have been taking a look at different public data sets that could possibly be used to try to isolate eye movement interference.
+
+The data set that showed the most promise was [this EEG data on sleep activity.](https://physionet.org/pn6/capslpdb/) There are 16 sets of control data in this set that should provide a good base to try to analyse.
+
+My plan going forward will be to run the data through a modified version of the Braindecode algorithms we saw last week and use the MNE tools to analyse the results.
+
+I'll be using the epochs marked for REM and NREM sleep as the difference between eye movement and no eye movement. Them I'll see if we can see localization in the regions near the front of the head where eye movement would cause the most interference.
+
+---
+
 #### February 4, 2018
 This last week I looked more closely at some of the available EEG related machine learning libraries and tools. One particular toolbox [Braindecode](https://robintibor.github.io/braindecode/) looked very promising so I decided to go through the tutorials and see what it all can do. 
  
