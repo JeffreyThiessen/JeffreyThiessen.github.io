@@ -52,7 +52,7 @@ Based off these results, it looks like a simple sequence to sequence model is no
 
 Note: I have omitted many of my failed attempts as they would have taken anywhere from days (or months) to run to completion. With better hardware and more time there might be some more interesting training options to try.
 
-[Click here to download a copy of the code used to run these trials](/projects/bci/main.py)
+[Click here to view the code used to run these trials](https://github.com/JeffreyThiessen/eeg_timeseries_autoencoder)
 
 ---
 
