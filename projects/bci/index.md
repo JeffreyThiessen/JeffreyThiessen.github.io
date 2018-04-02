@@ -17,42 +17,48 @@ The goal of this project is to determine the extent to which a computer or devic
 
 ### Latest Project Blog Update
 
-#### March 20th, 2018
-In the last 2 weeks I created a simple auto-encoder to run on the BCI sleep data. The encoder was built by adapting the [language translating encoder that is shown in the pytorch tutorials](http://pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html), and have it run on EEG data instead.
+#### April 1st, 2018
+Jumping off of my last blog post, this week I focused on cleaning up the basic auto-encoder, training it on our EEG data, and running analysis tools on it.
 
-My first attempt at using the auto-encoder was to encode a single channel of data by first reading in 100 data points, compressing it down (linear) to a hidden vector of 5 in length, and input into the recurrent net. This hidden vector is then fed into the decoder, which runs the vector through a recurrent net, then expanding (linear) back up to 100 points. We compare this output to our original input, calculate the loss, and propagate it back through the encoder/decoder.
+I started by training the encoder in two slightly different ways, with the key difference being the size of the hidden vector.
 
-By repeating this process the auto-encoder gets more efficient at compressing decompressing the data. We start with ~17725400 data points (512 points per second real time) which we break into 100 point chunks, and randomly select chunks 177254 x 2 times to run through the auto encoder. This process takes approximately 10 minutes on my Intel i5-3570K CPU.
+Both were trained on the same dataset, selecting chunks of data at random. For each dataset we iterated randomly over the dataset 20 times.
 
-When running the train function a single time, the loss we see ranges from 50-70%, at that point it is essentially random data as it has not encoded any structure yet. After running the auto encoder for the full 354508 times, we see a very tiny loss of between 0.5-1.5%.
+desc|Method A|Method B
+---|---|---
+Length Per Channel|100|100
+Hidden Nodes Per Channel|5|2
+Channels|9|9
+Input Size|900|900
+Hidden Size|45|18
+Output Size|900|900
+Dataset ittr|20|20
+Total train ittr|3545080|3545080
+Time To Train|102m 20s|92m 17s
+Loss over time|![](A losses.png)|![](B losses.png)
+Final Average Loss|0.0151|0.0256
 
-This graph plots the the average loss over time as the encoder is trained.
+A point of interest here is that that with less than half the hidden channel nodes, we less than twice the loss. This might be able to be mitigated with a longer training time.
 
-![](first.png)
+To analyze these encoders we will be examining what the hidden states look like when a single data entry is given to the encoder. During the training process we do the following:
 
-Next I used the Sequence to Sequence techniques to try to predict sections of data points given some sequence of data points. My first idea was to encode 1 second of data at a time over 30 seconds for a data sequence of 512 x 30 long, resulting in approximately 1154 inputs to train on, then train this data 5 times over. (reducing in size to 1/10th size)
+`input (900)` --> `encode` --> `hidden (45 || 18)` --> `decode` --> `output (900)`
 
-This takes about 12 minutes to run.
+But we will be stopping after the encode step and keeping the hidden vector. We do this repeatedly to get a collection of encoded data that we can use to see if we can find patterns of how it is encoded. To do this we use t-SNE to change the data into a plot graph while retaining the relative positions of the data. This should give us an idea of how the different data points relate to each other.
 
-Unfortunately this did not converge nicely as the previous one did
+[Click here for a great resource on t-SNE](https://lvdmaaten.github.io/tsne/)
 
-![](second.png)
+For now here are a few example pictures of what the t-SNE plots I generated look like. Next week I will have more details on the parameters used, and an in-depth analysis on our results.
 
-Then I tried to scale down my encoding down to 1/4 second increments for a 4 second sequence to try to have better convergence during the training. 128 x 4, for ~34620 inputs, again running 5x over.
+Method A|Method B
+---|---
+![](A_rand_10x50_tsne_2_45_20.png)|![](B_rand_10x50_tsne_2_45_20.png)
+![](A_rand_10x500_tsne_2_9_20.png)|![](B_rand_10x500_tsne_2_9_20.png)
+![](A_spec_1000_10x500_tsne_2_9_20.png)|![](B_spec_1000_10x500_tsne_2_9_20.png)
 
-In addition to this change in size, I added in teacher forcing at a rate of 50% to try to improve the convergence rate.
+The above were generated with the same parameters for the Method A/B counterparts (although some are zoomed in so the dots are larger/smaller).
 
-This takes almost 20 minutes to run.
-
-![](third.png)
-
-At this point we are seeing about double the convergence that we saw in our second trial (50-70% loss to 25-40%), and based off our 50% teacher forcing ratio this shows that the encoder is not learning to predict well enough based off the training. This might be a good candidate for a longer training to see if it can encode better with more data inputs after more tweaks to the encoder.
-
-Based off these results, it looks like a simple sequence to sequence model is not powerful enough to encode sequences of brain data. Using the simple recurrent model however did show promising results so we will be moving away from sequence to sequence and focusing on the simple model for the remainder of the project.
-
-Note: I have omitted many of my failed attempts as they would have taken anywhere from days (or months) to run to completion. With better hardware and more time there might be some more interesting training options to try.
-
-[Click here to view the code used to run these trials](https://github.com/JeffreyThiessen/eeg_timeseries_autoencoder)
+[Click here to view the encoders code and examples of code used to generate t-SNE graphs](https://github.com/JeffreyThiessen/eeg_basic_autoencoder)
 
 ---
 
