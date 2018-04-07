@@ -130,7 +130,7 @@ To see the data and code provided by Braindecode [click here for the full tutori
 #### January 28, 2018
 In the last week I have been familiarizing myself with the pytorch machine learning environment as it looks to be a solid framework to use for this project. I have found a few different projects others have done on BCI and EEG data that might prove to be a great foundation for this project, but I'll need to look more closely at them before making any decisions. 
 
-I have also been updating my knowledge on modern CNN and RNN algorithms, as the ammount of machine learning I knew before starting the project was not nearly enough to create and understand the workings of a recurrent neural network.
+I have also been updating my knowledge on modern CNN and RNN algorithms, as the amount of machine learning I knew before starting the project was not nearly enough to create and understand the workings of a recurrent neural network.
 
 I found the following resources to be the most helpful in my learning so I figured I would link them here so you too can get a better understanding of neural networks.
 
