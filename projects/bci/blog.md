@@ -83,7 +83,7 @@ Starting Dims = 9|![](A_spec_9000_10x50_tsne_2_9_20.png)|![](B_spec_9000_10x50_t
 —|—|—
 Data points length|500|500
 Data selection|Sequential|Sequential
-Starting Dims = 45|![](A_spec_1000_10x500_tsne_2_45_20.png)|![](A_spec_1000_10x500_tsne_2_45_20.png)
+Starting Dims = 45|![](A_spec_1000_10x500_tsne_2_45_20.png)|![](B_spec_1000_10x500_tsne_2_45_20.png)
 Starting Dims = 9|![](A_spec_1000_10x500_tsne_2_9_20.png)|![](B_spec_1000_10x500_tsne_2_9_20.png)
 ---|---|---
 
